@@ -1,9 +1,15 @@
 import React, { useState } from 'react';
 
 
-const Categories = ({ items }) => {
+const Categories = ({ items, onSelectItems }) => {
 
     let [activeMode, setActiveMode] = useState(null)
+
+    const onActiveItem = (index) => {
+        setActiveMode(index)
+        onSelectItems(index)
+
+    }
 
     return(
         <div class="categories">
@@ -12,7 +18,7 @@ const Categories = ({ items }) => {
                 {
                     items &&
                     items.map((name, index) => {
-                        return <li className={ activeMode === index ? 'active' : '' } onClick={() => setActiveMode(index)} key={`${name}_${index}`}>{name}</li>
+                        return <li className={ activeMode === index ? 'active' : '' } onClick={() => onActiveItem(index)} key={`${name}_${index}`}>{name}</li>
                     } )
 
                 }

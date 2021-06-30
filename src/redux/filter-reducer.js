@@ -1,5 +1,5 @@
 const initialState = {
-    categories: [],
+    categories: null,
     sortBy: 'популярности',
 }
 
@@ -21,5 +21,7 @@ const filterReducer = (state = initialState, action) => {
     }
 }
 
+
+export const setCategory = (categorIndex) => ({type: 'SET_CATEGORIES', payload: categorIndex})
 
 export default filterReducer
