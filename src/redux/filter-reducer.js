@@ -1,14 +1,17 @@
 const initialState = {
     categories: null,
-    sortBy: 'популярности',
+    sortBy: {
+        sortType: 'rating',
+        order: 'desc',
+    },
 }
 
 const filterReducer = (state = initialState, action) => {
     switch (action.type) {
-        case 'SET_SORT_BY':
+        case 'SET_SORT_TYPE':
             return {
                 ...state,
-                sortBy: action.payload
+                sortBy: {sortType: action.sortType, order: action.order}
             }
         case 'SET_CATEGORIES':
             return {
@@ -23,5 +26,7 @@ const filterReducer = (state = initialState, action) => {
 
 
 export const setCategory = (categorIndex) => ({type: 'SET_CATEGORIES', payload: categorIndex})
+
+export const setSortType = (sortType, order) => ({type: 'SET_SORT_TYPE', sortType, order })
 
 export default filterReducer

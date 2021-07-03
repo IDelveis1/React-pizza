@@ -1,9 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 
-const SortPopup = ({ items }) => {
+const SortPopup = ({ items, sortType, onSelectSortType }) => {
 const [visiblePopup, setVisiblePopup] = useState(false)
-const [activeItem, setActiveItem] = useState(0)
-const ActiveLabel = items[activeItem].name
+const ActiveLabel = items.find((obj) => obj.sortType === sortType).name
 const sortRef = useRef()
 const toogleVisiblePopup = () => {
   setVisiblePopup(!visiblePopup)
@@ -13,11 +12,12 @@ const handleOutsideClick = ((e) => {
     setVisiblePopup(false)
   }
 
+  console.log(sortType)
 
 })
 
-const handleActiveItem = (index) => {
-  setActiveItem(index);
+const handleActiveItem = (sortType, order) => {
+  onSelectSortType(sortType, order);
   setVisiblePopup(false)
 }
 
@@ -49,7 +49,7 @@ useEffect(() => {
                 {
                     items &&
                     items.map((obj, index) => {
-                        return <li className={ activeItem === index ? 'active' : '' } onClick={() => handleActiveItem(index)} key={`${obj.type}_${index}`}>{obj.name}</li>
+                        return <li className={ sortType === obj.sortType ? 'active' : '' } onClick={() => handleActiveItem(obj.sortType, obj.order)} key={`${obj.type}_${index}`}>{obj.name}</li>
                     } )
 
                 }

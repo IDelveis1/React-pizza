@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Categories from '../../../components/Categories/Categories';
 import PizzaBlock from '../../../components/PizzaBlock/PizzaBlock';
 import SortPopup from '../../../components/SortPopup/SortPopup';
 import { useDispatch, useSelector } from 'react-redux';
-import { setCategory } from '../../../redux/filter-reducer';
+import { setCategory, setSortType } from '../../../redux/filter-reducer';
 import { useCallback } from 'react';
 import PizzaLoader from '../../../components/PizzaLoader/PizzaLoader';
+import { fetchPizzas } from '../../../redux/pizzas-reducer'
+
 
 const items = [
   'Мясные',
@@ -21,20 +23,33 @@ const Home = () => {
 
   const onSelectItems = useCallback((index) => {
     dispatch(setCategory(index))
-    console.log(index)
   })
+
+  const onSelectSortType = useCallback((sortType, order) => {
+    dispatch(setSortType(sortType, order))
+  })
+
+
 
   const pizzas = useSelector(({ pizzas }) => pizzas.items)
   const isLoaded = useSelector(({ pizzas }) => pizzas.isLoaded)
+  const categories = useSelector(({ filters }) => filters.categories)
+  const sortType = useSelector(({ filters }) => filters.sortBy.sortType)
+
+  console.log(categories)
+
+  useEffect(() => {
+    dispatch(fetchPizzas())
+  }, [categories, sortType])
 
     return (
         <div class="container">
         <div class="content__top">
-          <Categories onSelectItems={onSelectItems}  items={items}/>
-          <SortPopup items={[
-            {name: 'популярности', type: 'popular'},
-            {name: 'цене', type: 'price'},
-            {name: 'алфавиту', type: 'alphabet'},
+          <Categories onSelectItems={onSelectItems} categories={ categories } items={items}/>
+          <SortPopup  sortType={sortType} onSelectSortType={onSelectSortType} items={[
+            { name: 'популярности', sortType: 'rating', order: 'desc' },
+            { name: 'цене', sortType: 'price', order: 'desc' },
+            { name: 'алфавиту', sortType: 'name', order: 'asc' },
           ]}/>
         </div>
         <h2 class="content__title">Все пиццы</h2>

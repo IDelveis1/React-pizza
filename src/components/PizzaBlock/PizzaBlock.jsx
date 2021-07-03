@@ -10,13 +10,12 @@ function PizzaBlock({name, imageUrl, types, sizes}) {
     const [activeSize, setActiveSize] = useState(sizes[0])
 
     const onSelectType = (index) => {
-        setActiveType(availableNames[index])
+        setActiveType(types[index])
     }
 
     const onSelectSize = (index) => {
         setActiveSize(availableSizes[index])
     }
-
 
     return (
         <div class="pizza-block">
@@ -30,7 +29,7 @@ function PizzaBlock({name, imageUrl, types, sizes}) {
           <ul>
           {availableNames.map((type, index) => {
                        return <li onClick={() => onSelectType(index)} className={className({
-                      'active': activeType === type,
+                      'active': activeType === index,
                       'disabled': !types.includes(index),
                   })}>{type}</li>
               })}
