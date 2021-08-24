@@ -27,9 +27,9 @@ const pizzasReducer = (state = initialState, action) => {
 }
 
 
-export const fetchPizzas = () => (dispatch) => {
+export const fetchPizzas = (categories, sortType, order) => (dispatch) => {
     dispatch(setPreLoader(true))
-    axios.get('http://localhost:3001/pizzas').then(({ data }) => dispatch(setPizzas(data)))
+    axios.get(`/pizzas?${categories !== null ? `category=${categories}&` : ''}_sort=${sortType}&_order=${order}`).then(({ data }) => dispatch(setPizzas(data)))
 }
 
 export const setPizzas = (items) => ({type: 'SET_PIZZAS', payload: items})

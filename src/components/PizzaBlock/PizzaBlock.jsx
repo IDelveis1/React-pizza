@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import className from 'classnames';
+import Button from '../Button/Button'
 
-function PizzaBlock({name, imageUrl, types, sizes}) {
+function PizzaBlock({id, name, imageUrl, types, sizes, price, onClickAddPizzas, addedPizzas}) {
 
     const availableNames = ['тонкое', 'традиционное']
     const availableSizes = [26, 30, 40]
@@ -15,6 +16,18 @@ function PizzaBlock({name, imageUrl, types, sizes}) {
 
     const onSelectSize = (index) => {
         setActiveSize(availableSizes[index])
+    }
+
+    const onAddPizza = () => {
+      const obj = {
+        id,
+        name,
+        imageUrl,
+        price,
+        type: availableNames[activeType],
+        size: activeSize
+      }
+      onClickAddPizzas(obj)
     }
 
     return (
@@ -44,9 +57,9 @@ function PizzaBlock({name, imageUrl, types, sizes}) {
               }
           </ul>
         </div>
-        <div class="pizza-block__bottom">
-          <div class="pizza-block__price">от 395 ₽</div>
-          <div class="button button--outline button--add">
+        <div className="pizza-block__bottom">
+          <div className="pizza-block__price">от {price} ₽</div>
+          <Button onClick={onAddPizza} className="button--outline button--add" outline>
             <svg
               width="12"
               height="12"
@@ -60,8 +73,8 @@ function PizzaBlock({name, imageUrl, types, sizes}) {
               />
             </svg>
             <span>Добавить</span>
-            <i>2</i>
-          </div>
+            {addedPizzas && <i>{addedPizzas}</i>}
+          </Button>
         </div>
         </div>
     );

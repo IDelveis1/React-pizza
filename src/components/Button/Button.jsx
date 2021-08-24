@@ -2,9 +2,9 @@ import classNames from 'classnames';
 import React from 'react';
 
 
-const Button = ({ outline, className, children }) => {
+const Button = ({ outline, className, children, onClick }) => {
     return(
-        <button href="/cart.html" class={classNames('button', className, {
+        <button onClick={onClick} href="/cart.html" class={classNames('button', className, {
             'wo-nit': outline
         })}>
             {children}
